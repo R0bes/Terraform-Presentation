@@ -1,27 +1,28 @@
-<p align="center">
-  <a href="https://revealjs.com">
-  <img src="https://hakim-static.s3.amazonaws.com/reveal-js/logo/v1/reveal-black-text.svg" alt="reveal.js" width="450">
-  </a>
-  <br><br>
-  <a href="https://github.com/hakimel/reveal.js/actions"><img src="https://github.com/hakimel/reveal.js/workflows/tests/badge.svg"></a>
-  <a href="https://slides.com/"><img src="https://s3.amazonaws.com/static.slid.es/images/slides-github-banner-320x40.png?1" alt="Slides" width="160" height="20"></a>
-</p>
 
-reveal.js is an open source HTML presentation framework. It enables anyone with a web browser to create fully featured and beautiful presentations for free. [Check out the live demo](https://revealjs.com/).
+# Terraform - Lessons Learned
 
-The framework comes with a broad range of features including [nested slides](https://revealjs.com/vertical-slides/), [Markdown support](https://revealjs.com/markdown/), [Auto-Animate](https://revealjs.com/auto-animate/), [PDF export](https://revealjs.com/pdf-export/), [speaker notes](https://revealjs.com/speaker-view/), [LaTeX support](https://revealjs.com/math/), [syntax highlighted code](https://revealjs.com/code/) and much more.
+#### Description:
+First we'll look at some basics, then we'll see how to write custom modules, how to implement switching between remote and local backends, and how to manage resources that don't exist natively in Terraform.
 
-<h1>
-  <a href="https://revealjs.com/installation" style="font-size: 3em;">Get Started</a>
-</h1>
 
-## Documentation
-The full reveal.js documentation is available at [revealjs.com](https://revealjs.com).
+#### Setup
+0. Use a console with admin rights.<br><br>
+      
+1. Clone the repository:<br>
+   ```$ git clone https://github.com/R0bes/TerraformPresentation.git```
 
-## Online Editor
-Want to create your presentation using a visual editor? Try the official reveal.js presentation platform for free at [Slides.com](https://slides.com). It's made by the same people behind reveal.js.
+2. Switch the directory<br>
+   ```cd TerraformPresentation```
 
-## License
+3. Get necessary prerequisites, execute npm and start the reveal.js server:<br>
+   ```$ . ./startup.sh```
+
+
+4. browse to the [slides](http://localhost:8000).
+
+
+
+#### License
 
 MIT licensed
 

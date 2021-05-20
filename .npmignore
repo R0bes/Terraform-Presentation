@@ -1,7 +1,4 @@
-/test
-/examples
 .github
 .gulpfile
 .sass-cache
 gulpfile.js
-CONTRIBUTING.md

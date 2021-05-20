@@ -4,20 +4,277 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
-
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
 		<link rel="stylesheet" href="dist/theme/black.css">
-
-		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+		<link rel="stylesheet" href="dist/slides.css">
+
+		<title>Terraform - Lessons Learned</title>		
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+
+				<!-- Title Slide -->
+				<section>
+					<a href="https://github.com/R0bes/Terraform-Presentation">
+						<h2>Terraform - Lessons Learned</h2>
+					</a>
+					
+					<p>Created by Robin Schwendele and 
+						<a href="https://github.com/R0bes/Terraform-Presentation/graphs/contributors">contributors</a>
+					</p>
+
+					<p>
+						<small>Based on:
+							<a href="https://dev.azure.com/GFTDemos/GFT.IoT">A practical IoT cloud journey</a>
+						</small>
+					</p>
+				</section>
+				
+
+				
+
+				<section>
+					<div id="tflogo" style="position: absolute;
+                        top: 0px;
+                        right: 0px;
+                        width: 250px;
+                        height: 250px;">
+						<img data-src="https://blogs.vmware.com/cloudprovider/files/2019/04/og-image-8b3e4f7d-blog-aspect-ratio.png">
+					</div>
+					<h3 class="headline">Terraform</u></h3>
+					<ul>
+						<li class="fragment">Provisioning Tool
+							<!--ul>
+								<li>Creation and Standup</li>
+								<li>Patch or reconfigure</li>
+								<li>Scale up/down</li>
+								<li>Decomission</li>
+							</ul-->
+						</li>
+						<li class="fragment">Infrastructure as Code</li>
+						<li class="fragment">Declarative</li>
+						<li class="fragment">Plugin-based architecture model</li>
+						<li class="fragment">HCL (Hashicorp Configuration Language) </li>
+						<li class="fragment">Written in Golang</li>
+						<li class="fragment"><a href="https://github.com/hashicorp/terraform">Open Source</a></li>
+					</ul>					
+
+				</section>
+				
+				<section>
+					<h3 class="headline">Commands</h3>
+					<ul>
+						<li>init</li>
+						<li>plan</li>
+						<li>apply</li>
+						<li>destroy</li>
+					</ul>	
+				</section>
+
+				
+				<section>
+					<h3 class="headline">Syntax</h3>
+					<ul>
+						<li>Resources</li>
+						<li>Data</li>
+						<li>Variable</li>
+						<li>Locals</li>
+						<li>Output</li>
+					</ul>
+				</section>
+
+
+
+				<!-- External Code -->				
+				<section data-auto-animate>
+					<h3 class="headline">Example: Device Twin</h3>
+					<ul>
+						<li>After terraform apply via <a href="https://docs.microsoft.com/de-de/cli/azure/">Azure CLI</a></li>
+						<li>IoT Hub: my-hub</li>
+					</ul>					
+					
+					<pre data-id="code-animation"><code class="hljs" data-trim>
+						$ az iot hub device-identity create --hub-name 'my-hub' --device-id 'my-device'
+					</code></pre>
+
+				</section>
+
+				<section data-auto-animate>
+					<h3 class="headline">Example: Device Twin</h3>
+					<ul>
+						<li>Local execution Provisioner via Terraform</li>
+						<li>Interpreter must be installed</li>
+						<li><b>az login</b> must be executed before <b>terraform apply</b></li>
+					</ul>	
+					
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers="|1,7|2,6|3|4|5">
+						resource "null_resource" "device_twin" {
+							provisioner "local-exec" {
+								when = create
+								interpreter = ["pwsh" , "-Command"]
+								command = az iot hub device-identity create -n 'my-hub' -d 'my-device'
+							}
+						}
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h3 class="headline">Example: Device Twin</h3>
+					<p>Same thing for destroy</p>
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers="3|5">
+						resource "null_resource" "device_twin" {
+							provisioner "local-exec" {
+								when = destroy
+								interpreter = ["pwsh" , "-Command"]
+								command = az iot hub device-identity delete -n 'my-hub' -d 'my-device'
+							}
+						}
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h3 class="headline">Example: Device Twin</h3>
+					<p>And together</p>
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers="3-5|8-10|5,10">
+						resource "null_resource" "device_twin" {
+							provisioner "local-exec" {
+								when = create
+								interpreter = ["pwsh" , "-Command"]
+								command = az iot hub device-identity create -n 'my-hub' -d 'my-device'
+							}
+							provisioner "local-exec" {
+								when = destroy
+								interpreter = ["pwsh" , "-Command"]
+								command = az iot hub device-identity delete -n 'my-hub' -d 'my-device'
+							}
+						}
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h3 class="headline">Example: Device Twin</h3>
+					<p>Problem: Destroy time provisioner cannot access variables</p>
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers="1,6,11">
+						variable "device_name" {}
+						resource "null_resource" "device_twin" {
+							provisioner "local-exec" {
+								when = create
+								interpreter = ["pwsh" , "-Command"]
+								command = az iot hub device-identity create -n 'my-hub' -d '${var.device_name}'
+							}
+							provisioner "local-exec" {
+								when = destroy
+								interpreter = ["pwsh" , "-Command"]
+								command = az iot hub device-identity delete -n 'my-hub' -d '${var.device_name}'
+							}
+						}
+					</code></pre>
+				</section>
+
+
+				<section data-auto-animate>
+					<h3 class="headline">Example: Device Twin</h3>
+					<p>Solution: Triggers can retain data you need at destroy time</p>
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers="1,3,7,12">
+						variable "device_name" {}
+						resource "null_resource" "device_twin" {
+							triggers = { device_name = var.device_name }
+							provisioner "local-exec" {
+								when = create
+								interpreter = ["pwsh" , "-Command"]
+								command = az iot hub device-identity create -n 'my-hub' -d self.triggers.name
+							}
+							provisioner "local-exec" {
+								when = destroy
+								interpreter = ["pwsh" , "-Command"]
+								command = az iot hub device-identity delete -n 'my-hub' -d self.triggers.name
+							}
+						}
+					</code></pre>
+				</section>
+
+
+				<section data-auto-animate>
+					<h3 class="headline">Example: Device Twin</h3>
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers="4,5,">
+						variable "device_name" {}
+						resource "null_resource" "device_twin" {
+							triggers = {
+								hub_name = azurerm.iothub.my_hub
+								device_name = var.name
+							}
+							provisioner "local-exec" {
+								...
+								command = az iot hub device-identity create -n self.triggers.hub -d self.triggers.name
+							}
+							provisioner "local-exec" {
+								...
+								command = az iot hub device-identity delete -n self.triggers.hub -d self.triggers.name
+							}
+						}
+					</code></pre>
+				</section>
+
+
+				<section data-auto-animate>
+					<h3 class="headline">Example: Device Twin</h3>
+					<p>Script with error handling/retires</p>
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers="2-3|4|6-27|29-30"><script type="text/template">
+						locals {
+						    create = "create"
+						    destroy = "delete"
+						    commands = toset( [ local.create, local.destroy ] )
+						}
+						resource "local_file" "script_template" {
+						    filename = "device_script.ps1.tmpl"
+						    content = <<SCRIPT
+							$success=$False
+							$inc=0
+							while(!$success -and $inc -lt 25) {
+								$inc = $inc+1
+								try {
+									$res = az iot hub device-identity $${command} -n '${var.iot_hub}' -d '${var.name}' 2>$1
+									if ($res -And !($res -Match "ERROR")) {
+										$success=$True
+									}
+								}
+								catch [Exception]
+								{
+									echo $_.Exception.GetType().FullName, $_.Exception.Message
+								} 
+							}      
+							echo "Output: $res" 
+							SCRIPT
+						}
+						data "template_file" "command_scripts" {
+						    for_each = local.commands
+						    template = local_file.script_template.content
+						    vars = {
+						        command = each.key
+						    }
+						}
+					</script></code></pre>
+
+				</section>
+
+				<section>
+					<h3 class="headline">Modules</h3>
+					<ul>
+						<li class="fragment">Container to group multiple resources</li>
+						<li class="fragment">
+							<ul>
+								<li>Input variables</li>
+								<li>Output values</li>
+								<li>Resources to define infrastructure objects</li>
+							</ul>
+						</li>
+						<li class="fragment">Placed in its own directory</li>
+					</ul>
+				</section>				
 			</div>
 		</div>
 
@@ -31,9 +288,14 @@
 			// - https://revealjs.com/config/
 			Reveal.initialize({
 				hash: true,
+  				fragments: false, // TODO
 
 				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+				plugins: [ RevealHighlight, RevealNotes ],
+
+				margin: 0.04,
+				
+				width: 1400,
 			});
 		</script>
 	</body>
