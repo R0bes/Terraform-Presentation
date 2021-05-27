@@ -7,9 +7,11 @@
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
 		<link rel="stylesheet" href="dist/theme/black.css">
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<!--link rel="stylesheet" href="plugin/highlight/monokai.css"-->
 
-		<link rel="stylesheet" href="slides.css">
+		<link rel="stylesheet" href="css/terraform.css">
+		<link rel="stylesheet" href="css/slides.css">
+
 		<!--link rel="stylesheet" href="terraform.css"-->
 
 		<title>Terraform - Lessons Learned</title>		
@@ -24,19 +26,36 @@
 						<h2>Terraform - Lessons Learned</h2>
 					</a>
 					
-					<p>Created by Robin Schwendele and 
-						<a href="https://github.com/R0bes/Terraform-Presentation/graphs/contributors">contributors</a>
-					</p>
+					<p>By Robin Schwendele</p>
 
-					<p>
-						<small>Based on:
-							<a href="https://dev.azure.com/GFTDemos/GFT.IoT">A practical IoT cloud journey</a>
-						</small>
-					</p>
 				</section>
 				
 
+				<section>
+					<h3 class="headline">About Myself</h3>
+					<div style="position: absolute;
+                        top: 50px;
+                        left: 0px;
+                        width: 250px;
+                        height: 250px;">
+						<img id="me" data-src="images/me.jpg">
+					</div>
+					<ul>
+						<li>Robin Schwendele</li>
+						<li>Working student since 10/2020</li>
+						<li>Master Software-Engineering Mannheim</li>
+					</ul-->
+				</section>
 				
+				<section>
+					<h3 class="headline">A practical IoT cloud journey</h3>					
+					<img width="50%" data-src="http://www.plantuml.com/plantuml/proxy?cache=no&src=https%3A%2F%2Fdev.azure.com%2FGFTDemos%2FGFT.IoT%2F_apis%2Fgit%2Frepositories%2FGFT.IoT%2FItems%3Fpath%3D%252FDocs%252FDiagrams%252Fenvironment.puml%26recursionLevel%3D0%26versionDescriptor.version%3Dmaster%26versionDescriptor.versionOptions%3D0%26versionDescriptor.versionType%3D0%26includeContent%3Dtrue%26resolveLfs%3Dtrue"/>
+					<ul>
+						<li><a href="https://dev.azure.com/GFTDemos/GFT.IoT">Repository</a></li>
+						<li><a href="https://www.youtube.com/watch?v=RXjti3ABJYw">Youtube</a></li>
+					</ul>
+				</section>
+
 
 				<section>
 					<div id="tflogo" style="position: absolute;
@@ -44,7 +63,7 @@
                         right: 0px;
                         width: 250px;
                         height: 250px;">
-						<img data-src="https://blogs.vmware.com/cloudprovider/files/2019/04/og-image-8b3e4f7d-blog-aspect-ratio.png">
+						<img data-src="diagrams/terraform_logo.png">
 					</div>
 					<h3 class="headline">Terraform</u></h3>
 					<ul>
@@ -68,12 +87,12 @@
 				
 				<section>
 					<h3 class="headline">Commands</h3>
-					<ul>
-						<li>init</li>
-						<li>plan</li>
-						<li>apply</li>
-						<li>destroy</li>
-					</ul>	
+					<img data-src="diagrams/commands.svg" width="1000">	
+				</section>
+				
+				<section>
+					<h3 class="headline">Workflow</h3>
+					<img data-src="diagrams/workflow.svg" width="1000">	
 				</section>
 
 				
@@ -103,6 +122,22 @@
 
 				</section>
 
+				<section>
+					<h3 class="headline">!!TERRAFORM HIGHLIGHT TEST SLIDE!!</h3>		
+					<pre data-id="code-animation"><code class="tf" data-trim data-line-numbers="">
+						resource "azurerm_kusto_cluster" "adx_cluster" {
+							variable   = "${local.mylocal}-test-${var.myvar}"
+							number     = 123456
+							boolean    = true
+							object     = map(string)
+							provisioner {
+								interpreter = ["pwsh" , "-Command"]
+								command = az iot hub device-identity create -n 'my-hub' -d 'my-device'
+							}
+						}
+					</code></pre>
+				</section>
+
 				<section data-auto-animate>
 					<h3 class="headline">Example: Device Twin</h3>
 					<ul>
@@ -125,6 +160,7 @@
 				<section data-auto-animate>
 					<h3 class="headline">Example: Device Twin</h3>
 					<p>Same thing for destroy</p>
+
 					<pre data-id="code-animation"><code class="tf" data-trim data-line-numbers>
 						resource "null_resource" "device_twin" {
 							provisioner "local-exec" {
@@ -134,6 +170,7 @@
 							}
 						}
 					</code></pre>
+					
 				</section>
 
 				<section data-auto-animate>
@@ -282,7 +319,7 @@
 		<script src="plugin/notes/notes.js"></script>
 		<script src="plugin/markdown/markdown.js"></script>
 		<script src="plugin/highlight/highlight.js"></script>
-		<script src="terraform.js"></script>
+		<script src="plugin/highlight/highlightjs-terraform/terraform.js"></script>
 		<script>
 			Reveal.initialize({
 
@@ -298,7 +335,7 @@
 			}).then(() => {
 			    const hljs = RevealHighlight().hljs;
 
-			    hljs.registerLanguage("terraform", defineTF)
+			    hljs.registerLanguage("terraform", hljsDefineTerraform)
     			hljs.initHighlightingOnLoad();
 
 			    Array.from(Reveal.getRevealElement().querySelectorAll('pre code')).forEach((block) => {
