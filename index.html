@@ -22,12 +22,13 @@
 
 				<!-- Title Slide -->
 				<section>
-					<a href="https://github.com/R0bes/Terraform-Presentation">
-						<h2>Terraform - Lessons Learned</h2>
-					</a>
-					
-					<p>By Robin Schwendele</p>
-
+					<h2>Terraform - Lessons Learned</h2>
+					<small>
+						<p>By Robin Schwendele</p>
+						<a href="https://github.com/R0bes/Terraform-Presentation">
+							<p>Github</p>
+						</a>
+					</small>
 				</section>
 				
 
@@ -54,8 +55,7 @@
 						<li><a href="https://dev.azure.com/GFTDemos/GFT.IoT">Repository</a></li>
 						<li><a href="https://www.youtube.com/watch?v=RXjti3ABJYw">Youtube</a></li>
 					</ul>
-				</section>
-
+				</section>	
 
 				<section>
 					<div id="tflogo" style="position: absolute;
@@ -63,48 +63,82 @@
                         right: 0px;
                         width: 250px;
                         height: 250px;">
-						<img data-src="diagrams/terraform_logo.png">
+						<img data-src="images/terraform_logo.png">
 					</div>
 					<h3 class="headline">Terraform</u></h3>
 					<ul>
-						<li class="fragment">Provisioning Tool
-							<!--ul>
-								<li>Creation and Standup</li>
-								<li>Patch or reconfigure</li>
-								<li>Scale up/down</li>
-								<li>Decomission</li>
-							</ul-->
-						</li>
+						<li class="fragment">By HashiCorp</li>
+						<li class="fragment">Provisioning Tool</li>
 						<li class="fragment">Infrastructure as Code</li>
 						<li class="fragment">Declarative</li>
 						<li class="fragment">Plugin-based architecture model</li>
 						<li class="fragment">HCL (Hashicorp Configuration Language) </li>
 						<li class="fragment">Written in Golang</li>
 						<li class="fragment"><a href="https://github.com/hashicorp/terraform">Open Source</a></li>
-					</ul>					
+					</ul>
+
+					<aside class="notes">
+						<p>Tasks:</p>
+						<ul>
+							<li>Creation and Standup</li>
+							<li>Patch or reconfigure</li>
+							<li>Scale up/down</li>
+							<li>Decomission</li>
+						</ul>
+					</aside>
 
 				</section>
 				
 				<section>
 					<h3 class="headline">Commands</h3>
-					<img data-src="diagrams/commands.svg" width="1000">	
+					<img data-src="images/diagrams/commands.svg" width="1000">	
 				</section>
 				
 				<section>
 					<h3 class="headline">Workflow</h3>
-					<img data-src="diagrams/workflow.svg" width="1000">	
+					<img data-src="images/diagrams/workflow.svg" width="1000">	
 				</section>
 
-				
 				<section>
-					<h3 class="headline">Syntax</h3>
+					<h3 class="headline">1. Demo</h3>
+					<p>We will see</p>
 					<ul>
-						<li>Resources</li>
-						<li>Data</li>
-						<li>Variable</li>
-						<li>Locals</li>
-						<li>Output</li>
+						<li>Example Terraform File (.tf)</li>
+						<li>Syntax Basics</li>
+						<li>Terraform Execution</li>
+						<li>Resource in the Cloud</li>
 					</ul>
+				</section>
+
+				<section>
+					<h3 class="headline">1. Demo</h3>
+					<pre><code class="terraform" data-trim data-line-numbers="1-14|1-3|4|5-8|9-14">
+						provider "azurerm" {
+							features {}
+						}
+						variable "name" {}
+						resource "azurerm_resource_group" "example" {
+							name        = var.name
+							location    = "westeurope"
+						}
+						resource "azurerm_public_ip" "example" {
+						  name                = "${var.name}-ip"
+						  resource_group_name = azurerm_resource_group.example.name
+						  location            = azurerm_resource_group.example.location
+						  allocation_method   = "Static"
+						}
+					</code></pre>
+					
+					<aside class="notes">
+						<ul>
+							<li>cd </li>
+						</ul>
+					</aside>
+
+				</section>
+
+				<section>
+					<h3 class="headline">1. Demo</h3>
 				</section>
 		
 
@@ -122,7 +156,7 @@
 
 				</section>
 
-				<section>
+				<!--section>
 					<h3 class="headline">!!TERRAFORM HIGHLIGHT TEST SLIDE!!</h3>		
 					<pre data-id="code-animation"><code class="tf" data-trim data-line-numbers="">
 						resource "azurerm_kusto_cluster" "adx_cluster" {
@@ -136,7 +170,7 @@
 							}
 						}
 					</code></pre>
-				</section>
+				</section-->
 
 				<section data-auto-animate>
 					<h3 class="headline">Example: Device Twin</h3>
@@ -324,7 +358,7 @@
 			Reveal.initialize({
 
 				hash: true,
-  				fragments: false, // TODO
+  				//fragments: false, // TODO
 
 				plugins: [ RevealHighlight, RevealNotes ],
 
