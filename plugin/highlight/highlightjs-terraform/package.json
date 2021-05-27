@@ -1,0 +1,32 @@
+{
+  "name": "highlightjs-terraform",
+  "version": "1.0.6",
+  "description": "highlight.js syntax definition for Ethereum's terraform language",
+  "main": "terraform.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "files": [
+    "terraform.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/highlightjs/highlightjs-terraform.git"
+  },
+  "keywords": [
+    "terraform",
+    "highlight.js",
+    "highlightjs",
+    "syntax"
+  ],
+  "author": "WinOpsDBA",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WinOpsDBA/highlightjs-terraform/issues"
+  },
+  "homepage": "https://github.com/highlightjs/highlightjs-terraform#readme",
+  "devDependencies": {
+    "highlight.js": "^9.15.6",
+    "jasmine": "^3.3.1"
+  }
+}
