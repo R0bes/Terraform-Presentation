@@ -20,17 +20,20 @@
 		<div class="reveal">
 			<div class="slides">
 
-				<!-- Title Slide -->
+
+
+				<!-- ! Title -->
+
 				<section>
 					<h2>Terraform - Lessons Learned</h2>
 					<small>
 						<p>By Robin Schwendele</p>
-						<a href="https://github.com/R0bes/Terraform-Presentation">
-							<p>Github</p>
-						</a>
 					</small>
 				</section>
+
+
 				
+				<!-- ! Me -->
 
 				<section>
 					<h3 class="headline">About Myself</h3>
@@ -41,21 +44,34 @@
                         height: 250px;">
 						<img id="me" data-src="images/me.jpg">
 					</div>
-					<ul>
-						<li>Robin Schwendele</li>
-						<li>Working student since 10/2020</li>
-						<li>Bachelor Computer Science Mannheim</li>
-						<li>Student of Master Software-Engineering Mannheim</li>
-					</ul-->
-				</section>
-				
+					<div style="position: absolute;
+						top: 70px;
+						left: 300px;">
+						<ul>
+							<li>Robin Schwendele</li>
+							<li>Working student since 10/2020</li>
+							<li>Bachelor Computer Science (Mannheim)</li>
+							<li>Student of Master Software-Engineering (Mannheim)</li>
+							<li>
+								<a href="https://github.com/R0bes/Terraform-Presentation">
+									<p>https://github.com/R0bes/Terraform-Presentation</p>
+								</a>
+							</li>
+						</ul-->
+					</div>
+				</section>				
+
+
+
+				<!-- ! IoT Cloud Journey -->
+
 				<section id="iot-project">
 					<h3 class="headline">A practical IoT cloud journey</h3>
 					<div>									
 						<img width="70%" data-src="http://www.plantuml.com/plantuml/proxy?cache=no&src=https%3A%2F%2Fdev.azure.com%2FGFTDemos%2FGFT.IoT%2F_apis%2Fgit%2Frepositories%2FGFT.IoT%2FItems%3Fpath%3D%252FDocs%252FDiagrams%252Fenvironment.puml%26recursionLevel%3D0%26versionDescriptor.version%3Dmaster%26versionDescriptor.versionOptions%3D0%26versionDescriptor.versionType%3D0%26includeContent%3Dtrue%26resolveLfs%3Dtrue"/>
 					</div>
 					<div>
-						<small><a href="https://dev.azure.com/GFTDemos/GFT.IoT">Repository</a></small>
+						<small><a href="https://dev.azure.com/GFTDemos/GFT.IoT">https://dev.azure.com/GFTDemos/GFT.IoT</a></small>
 					</div>
 				</section>	
 
@@ -90,12 +106,20 @@
 					</aside>
 
 				</section>
+
+
+
+				<!-- ! Commands -->
 				
 				<section>
 					<h3 class="headline">Commands</h3>
 					<img data-src="images/diagrams/commands.svg" width="1000">	
 				</section>
 				
+				
+
+				<!-- ! Workflow -->
+
 				<section>
 					<h3 class="headline">Workflow</h3>
 					<img data-src="images/diagrams/workflow.svg" width="1000">	
@@ -107,7 +131,7 @@
 
 				<section>
 					<h3 class="headline">1. Demo - Terraform Basics</h3>
-					<p><strong>What we will see</strong></p>
+					<p><strong>What we will see:</strong></p>
 					<ul>
 						<li>Example Terraform File (.tf)</li>
 						<li>Syntax Basics</li>
@@ -118,31 +142,30 @@
 
 				<section>
 					<h3 class="headline">1. Demo - Terraform Basics</h3>
-					<pre><code class="terraform" data-trim data-line-numbers="1-14|1-3|4|5-8|9-14">
+					<pre><code class="terraform" data-trim data-line-numbers="|1-3|4-7|8-13">
 						provider "azurerm" {
-							features {}
+						    features {}
 						}
-						variable "name" {}
 						resource "azurerm_resource_group" "example" {
-							name        = var.name
-							location    = "westeurope"
+						    name        = "demo1"
+						    location    = "westeurope"
 						}
 						resource "azurerm_public_ip" "example" {
-						  name                = "${var.name}-ip"
-						  resource_group_name = azurerm_resource_group.example.name
-						  location            = azurerm_resource_group.example.location
-						  allocation_method   = "Static"
+						    name                = "${azurerm_resource_group.example.name}-ip"
+						    resource_group_name = azurerm_resource_group.example.name
+						    location            = azurerm_resource_group.example.location
+						    allocation_method   = "Static"
 						}
 					</code></pre>
 				</section>
 
 				<section>
-					<h3 class="headline">1. Demo - Terraform Basics</h3>					
+					<h3 class="headline">1. Demo - Terraform Basics</h3>
 					<aside class="notes">
 						<ul>
-							<li>$ cd demos/1/</li>
+							<li>$ cd demos/demo1/</li>
 							<li>$ ls</li>
-							<li>$ type basic.tf</li>
+							<li>$ type demo1.tf</li>
 							<li>$ terraform init</li>
 							<li>$ ls</li>
 							<li>$ terraform plan -out="demo1.tfplan"</li>
@@ -150,8 +173,8 @@
 							<li>check <a href="https://portal.azure.com/#home">Azure</a></li>
 							<li>$ terraform plan -destroy -out="demo1.destroy.tfplan"</li>
 							<li>$ terraform apply demo1.destroy.tfplan</li>
-							<li>$ terraform apply -var "name=demo12" --auto-approve</li>
-							<li>$ terraform destroy -var "name=demo12" --auto-approve</li>
+							<li>$ terraform apply --auto-approve</li>
+							<li>$ terraform destroy --auto-approve</li>
 							<li>$ ls</li>
 						</ul>
 					</aside>
@@ -164,7 +187,7 @@
 						<li>Terraform File</li>
 						<li>State File</li>
 						<li>Terraform Workflow via command line</li>
-						<li>Resources in the Cloud</li>
+						<li>Cloud Representation</li>
 					</ul>
 				</section>		
 
@@ -173,8 +196,9 @@
 				<!-- ! Demo 2  --  External Code -->		
 				
 				<section data-auto-animate>
-					<h3 class="headline">2. Demo - Digital Twin</h3>
-					<a href="#iot-project">Practical IoT-Cloud-Joruney</a>
+					<h3 class="headline">2. Custom Resource</h3>
+					<h5 class="headline">Digital Twin</h5>
+					<a href="#iot-project">Practical IoT-Cloud-Journey</a>
 															
 					<div style="position: absolute;
 						top: 0px;
@@ -184,70 +208,92 @@
 					</div>
 
 					<div style="position: absolute;
-						top: 150px;
+						top: 210px;
 						left: 250px;
 						width: 450px;">
 						<img data-src="images/digital_twin_car1.jpg">
 					</div>
 					
 					<div style="position: absolute;
-						top: 130px;
+						top: 200px;
 						right: 300px;
 						width: 450px;">
 						<img data-src="images/digital_twin_turbine1.jpg">
 					</div>
 					
 					<div style="position: absolute;
-                        top: 0px;
+                        top: 50px;
                         right: 0px;
                         width: 400px;">
 						<img data-src="images/digital_twin_car2.jpg">
 					</div>
 
 				</section>
-				
+
+
+				<section>
+					<h3 class="headline">2. Demo - Custom Resource</h3>		
+					<ul>
+						<li class="fragment">Prerequisites
+							<ul>
+								<li>Resource Group: <dev style="color: red;">demo2</dev></li>
+								<li>IoT-Hub: <dev style="color: red;">demo2-hub</dev></li>
+							</ul>
+						</li>		
+					</ul>
+					<div class="fragment">
+						<p><strong>What we will see:</strong></p>
+						<ul>
+							<li>Allocation of digital twins
+								<ul>
+									<li>Via Azure CLI</li>
+									<li>Via Custom Terraform Resource</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+
+
 
 				<section data-auto-animate>
-					<h3 class="headline">2. Demo - Digital Twin</h3>
-					<ul>
-						<li class="fragment">After terraform apply via <a href="https://docs.microsoft.com/de-de/cli/azure/">Azure CLI</a></li>
-						<li class="fragment">IoT Hub: my-hub</li>
-					</ul>					
-					<pre class="fragment" data-id="code-animation"><code class="shell" data-trim data-line-numbers="1">
-						$ az iot hub device-identity create --hub-name 'my-hub' --device-id 'my-device'
+					<h3 class="headline">2. Demo - Custom Resource</h3>
+					<p>After terraform apply via <a href="https://docs.microsoft.com/de-de/cli/azure/">Azure CLI</a></p>				
+					<pre data-id="code-animation"><code class="bash" data-trim data-line-numbers>
+						az login
+						az iot hub device-identity create -n 'demo2-hub' -d 'demo2-device'
 					</code></pre>
 				</section>
 
 
 				<section data-auto-animate>
-					<h3 class="headline">2. Demo - Digital Twin</h3>
-					<ul>
-						<li>Local execution Provisioner via Terraform</li>
-						<li>Interpreter must be installed</li>
-						<li><b>az login</b> must be executed before <b>terraform apply</b></li>
-					</ul>						
-					<pre data-id="code-animation"><code class="tf" data-trim data-line-numbers="1|3|5-6">
+					<h3 class="headline">2. Demo - Custom Resource</h3>		
+					<p>Custom Script in Terraform via <strong>local execution provisioner</strong></p>						
+					<pre data-id="code-animation"><code class="terraform" data-trim data-line-numbers="|1,7|2,6|3|4|5|">
 						resource "null_resource" "device_twin" {
 							provisioner "local-exec" {
 								when = create
 								interpreter = ["pwsh" , "-Command"]
-								command = az iot hub device-identity create -n 'my-hub' -d 'my-device'
+								command = az iot hub device-identity create -n 'demo2-hub' -d 'demo2-device'
 							}
 						}
 					</code></pre>
+					<ul>
+						<li>Interpreter must be installed and accessible</li>
+						<li><strong>az login</strong> must be executed <strong>before</strong> terraform apply</li>
+					</ul>					
 				</section>
 
 
 				<section data-auto-animate>
-					<h3 class="headline">2. Demo - Digital Twin</h3>
-					<p>Same thing for destroy</p>
-
-					<pre data-id="code-animation"><code class="tf" data-trim data-line-numbers>
+					<h3 class="headline">2. Demo - Custom Resource</h3>		
+					<p>Similar task to destroy</p>
+					<pre data-id="code-animation"><code class="terraform" data-trim data-line-numbers="|3|">
 						resource "null_resource" "device_twin" {
 							provisioner "local-exec" {
 								when = destroy
 								interpreter = ["pwsh" , "-Command"]
-								command = az iot hub device-identity delete -n 'my-hub' -d 'my-device'
+								command = az iot hub device-identity delete -n 'demo2-hub' -d 'demo2-device'
 							}
 						}
 					</code></pre>					
@@ -255,135 +301,135 @@
 
 
 				<section data-auto-animate>
-					<h3 class="headline">2. Demo - Digital Twin</h3>
+					<h3 class="headline">2. Demo - Custom Resource</h3>		
 					<p>And together</p>
-					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+					<pre data-id="code-animation"><code class="terraform" data-trim data-line-numbers="|3,5|8,10|">
 						resource "null_resource" "device_twin" {
 							provisioner "local-exec" {
 								when = create
 								interpreter = ["pwsh" , "-Command"]
-								command = az iot hub device-identity create -n 'my-hub' -d 'my-device'
+								command = az iot hub device-identity create -n 'demo2-hub' -d 'demo2-device'
 							}
 							provisioner "local-exec" {
 								when = destroy
 								interpreter = ["pwsh" , "-Command"]
-								command = az iot hub device-identity delete -n 'my-hub' -d 'my-device'
+								command = az iot hub device-identity delete -n 'demo2-hub' -d 'demo2-device'
 							}
 						}
 					</code></pre>
+					<aside class="notes">
+						<ul>
+							<li>See the next point of interes here: Variable redundancy</li>
+						</ul>
+					</aside>
 				</section>
 
 
 				<section data-auto-animate>
-					<h3 class="headline">2. Demo - Digital Twin</h3>
+					<h3 class="headline">2. Demo - Custom Resource</h3>		
 					<p>Problem: Destroy time provisioner cannot access variables</p>
-					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+					<pre data-id="code-animation"><code class="terraform" data-trim data-line-numbers>
 						variable "device_name" {}
 						resource "null_resource" "device_twin" {
 							provisioner "local-exec" {
 								when = create
 								interpreter = ["pwsh" , "-Command"]
-								command = az iot hub device-identity create -n 'my-hub' -d '${var.device_name}'
+								command = az iot hub device-identity create -n 'demo2-hub' -d '${var.device_name}'
 							}
 							provisioner "local-exec" {
 								when = destroy
 								interpreter = ["pwsh" , "-Command"]
-								command = az iot hub device-identity delete -n 'my-hub' -d '${var.device_name}'
+								command = az iot hub device-identity delete -n 'demo2-hub' -d '${var.device_name}'
 							}
 						}
 					</code></pre>
+					<div style="
+						position: absolute;
+                        top: 150px;
+                        right: 100px;
+                        width: 400px;
+						transform: rotate(45deg);">
+						<img data-src="images/false.png">
+					</div>
+
 				</section>
 
 
 				<section data-auto-animate>
-					<h3 class="headline">2. Demo - Digital Twin</h3>
+					<h3 class="headline">2. Demo - Custom Resource</h3>		
 					<p>Solution: Triggers can retain data you need at destroy time</p>
-					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+					<pre data-id="code-animation"><code class="terraform" data-trim data-line-numbers>
 						variable "device_name" {}
 						resource "null_resource" "device_twin" {
-							triggers = { device_name = var.device_name }
+							triggers = { name = var.device_name }
 							provisioner "local-exec" {
 								when = create
 								interpreter = ["pwsh" , "-Command"]
-								command = az iot hub device-identity create -n 'my-hub' -d self.triggers.name
+								command = az iot hub device-identity create -n 'demo2-hub' -d '${self.triggers.name}'
 							}
 							provisioner "local-exec" {
 								when = destroy
 								interpreter = ["pwsh" , "-Command"]
-								command = az iot hub device-identity delete -n 'my-hub' -d self.triggers.name
+								command = az iot hub device-identity delete -n 'demo2-hub' -d '${self.triggers.name}'
 							}
 						}
 					</code></pre>
+					<aside class="notes">
+						<ul>
+							<li>triggers (Map of String) A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners.</li>
+						</ul>
+					</aside>
 				</section>
 
 
 				<section data-auto-animate>
-					<h3 class="headline">2. Demo - Digital Twin</h3>
-					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+					<h3 class="headline">2. Demo - Custom Resource</h3>	
+					<pre data-id="code-animation"><code class="terraform" data-trim data-line-numbers>
 						variable "device_name" {}
 						resource "null_resource" "device_twin" {
 							triggers = {
-								hub_name = azurerm.iothub.my_hub
-								device_name = var.name
+								hub = azurerm.iothub.my_hub.name
+								name = var.device_name
 							}
 							provisioner "local-exec" {
 								...
-								command = az iot hub device-identity create -n self.triggers.hub -d self.triggers.name
+								command = az iot hub device-identity create -n '${self.triggers.hub}' -d '${self.triggers.name}'
 							}
 							provisioner "local-exec" {
 								...
-								command = az iot hub device-identity delete -n self.triggers.hub -d self.triggers.name
+								command = az iot hub device-identity delete -n '${self.triggers.hub}' -d '${self.triggers.name}'
 							}
 						}
 					</code></pre>
 				</section>
 
 
-				<section data-auto-animate>
-					<h3 class="headline">2. Demo - Digital Twin</h3>
-					<p>Script with error handling/retires</p>
-					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers><script type="text/template">
-						locals {
-						    create = "create"
-						    destroy = "delete"
-						    commands = toset( [ local.create, local.destroy ] )
-						}
-						resource "local_file" "script_template" {
-						    filename = "device_script.ps1.tmpl"
-						    content = <<SCRIPT
-							$success=$False
-							$inc=0
-							while(!$success -and $inc -lt 25) {
-								$inc = $inc+1
-								try {
-									$res = az iot hub device-identity $${command} -n '${var.iot_hub}' -d '${var.name}' 2>$1
-									if ($res -And !($res -Match "ERROR")) {
-										$success=$True
-									}
-								}
-								catch [Exception]
-								{
-									echo $_.Exception.GetType().FullName, $_.Exception.Message
-								} 
-							}      
-							echo "Output: $res" 
-							SCRIPT
-						}
-						data "template_file" "command_scripts" {
-						    for_each = local.commands
-						    template = local_file.script_template.content
-						    vars = {
-						        command = each.key
-						    }
-						}
-					</script></code></pre>
+				<section>
+					<h3 class="headline">2. Demo - Custom Resource</h3>	
+					<aside class="notes">
+						<ul>
+							<li>$ cd demos/demo2/</li>
+							<li>$ ls</li>
+						</ul>
+					</aside>
+				</section>	
 
-				</section>
 
 				<section>
-					<h3 class="headline">Modules</h3>
+					<h3 class="headline">2. Demo - Custom Resource</h3>	
+					<p><strong>What we saw</strong></p>
 					<ul>
-						<li class="fragment">Container to group multiple resources</li>
+						<li class="fragment">Custom local Script in terraform via 'local-exec provisioner'</li>
+						<li class="fragment">create and destroy time provisioners</li>
+						<li class="fragment">triggers as intermediate variable</li>
+					</ul>
+				</section>
+
+
+				<section>
+					<h3 class="headline">3. Modules</h3>
+					<ul>
+						<li class="fragment">'Container' to group multiple resources</li>
 						<li class="fragment">
 							<ul>
 								<li>Input variables</li>
@@ -393,7 +439,158 @@
 						</li>
 						<li class="fragment">Placed in its own directory</li>
 					</ul>
-				</section>				
+				</section>
+
+
+				<section>
+					<h3 class="headline">3. Modules</h3>
+					<p><strong>What we will see:</strong></p>
+					<ul>
+						<li class="fragment">Device twin resource from demo 2</li>
+						<li class="fragment">Improvements in script to handle errors</li>
+						<li class="fragment">Implement as module</li>
+						<li class="fragment">Usage</li>
+					</ul>
+				</section>
+
+
+				<section>
+					<h3 class="headline">3. Modules</h3>
+					<p>Current device twin resource (demo2)</p>
+					<pre data-id="code-animation"><code class="terraform" data-trim data-line-numbers="6-10">						
+						variable "device_name" {}
+						provider "azurerm" {...}					
+						resource "azurerm_resource_group" "demo3" {...}					
+						resource "azurerm_iothub" "my_hub" {...}
+
+						resource "null_resource" "device_twin" {
+							triggers = {...}
+							provisioner "local-exec" { when = create ... }
+							provisioner "local-exec" { when = delete ... }
+						}
+					</code></pre>
+				</section>
+
+				<section>
+					<h3 class="headline">3. Modules</h3>
+					<pre data-id="code-animation"><code class="terraform" data-trim data-line-numbers="6-10">						
+						variable "device_name" {}
+						provider "azurerm" {...}					
+						resource "azurerm_resource_group" "demo3" {...}					
+						resource "azurerm_iothub" "my_hub" {...}
+
+						module "device_twin" {
+							source   = "./Device"
+							name     = "demo3-device"
+							iot_hub  = "demo3-hub"
+						}
+					</code></pre>
+				</section>
+
+				<section>
+					<h3 class="headline">3. Modules - Demo</h3>
+				</section>
+
+				<section>
+					<h3 class="headline">3. Modules - Demo</h3>
+					<p><strong>What we saw</strong></p>
+					<ul>
+						<li>Module directory structure</li>
+						<li>Module usage</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3 class="headline">4. Backends</h3>
+					<ul>
+						<li class="fragment">One backend per configuration</li>
+						<li class="fragment">Defines where and how 
+							<ul>
+								<li>operations are performed</li>
+								<li>states stored</li>
+							</ul>
+						</li>						
+					</ul>
+				</section>
+
+				<section>
+					<h3 class="headline">4. Backends</h3>
+					<pre data-id="code-animation"><code class="terraform" data-trim data-line-numbers>						
+						terraform {
+							backend "local" { }
+						}
+					</code></pre>
+					<pre data-id="code-animation"><code class="terraform" data-trim data-line-numbers>						
+						terraform {
+							backend "azurerm" {
+								resource_group_name  = "demo4_state-storage"
+								storage_account_name = "demo4account"
+								container_name       = "demo4container"
+								key                  = "demo4.tfstate"
+							}
+						}
+					</code></pre>
+				</section>
+
+				<section>
+					<h3 class="headline">4. Backends - Demo</h3>
+					<p><strong>What we will see:</strong></p>
+					<ul>
+						<li>Backend storage structure</li>
+						<li>Remote State stored in the cloud</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3 class="headline">4. Backends - Demo</h3>
+				</section>
+
+				<section>
+					<h3 class="headline">4. Backends</h3>
+					<p class="fragment">Problem: One backend per configuration</p>
+					<ul>
+						<li class="fragment">Switching between different backends?</li>
+						<li class="fragment">Local for developement/experiments</li>
+						<li class="fragment">Remote for production/pipelines</li>
+					</ul>
+					<p class="fragment">Solution: Whole infrastructure as module</p>
+				</section>
+
+				<section>
+					<h3 class="headline">5. Summary</h3>
+					<p>Initial approach</p>
+					<ul>
+						<li class="fragment">Pipeline: 185 + 87</li>
+						<li class="fragment">Terraform: 364</li>
+					</ul>
+					<p>Changes applied</p>
+					<ul>
+						<li class="fragment">Pipeline: 143</li>
+						<li class="fragment">Terraform: 320 + (117 + 54 + 49 + 60) = 600</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3 class="headline">6. Conclusion</h3>
+					<ul>
+						<li class="fragment">Great tool for infrastructure provisioning</li>
+						<li class="fragment">Expecially in combination with pipelines</li>
+						<li class="fragment">But in active developement (terraform/providers)</li>
+						<li class="fragment">Some missing functionalities
+							<ul>
+								<li>Built in configuration switching</li>
+								<li>Provider funtionality/resources</li>
+							</ul>
+						</li>
+						<li>Flexible enough to built custom workarounds
+							<ul>
+								<li>Local-exec provisioners</li>
+								<li>Custom provisioners</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
 			</div>
 		</div>
 
@@ -406,41 +603,21 @@
 			Reveal.initialize({
 
 				hash: true,
-  				//fragments: false, // TODO
 
 				plugins: [ RevealHighlight, RevealNotes ],
 
 				margin: 0.04,
 				
-				width: 1400,
+				width: 1550,
 
 			}).then(() => {
 			    const hljs = RevealHighlight().hljs;
-
-			    hljs.registerLanguage("terraform", hljsDefineTerraform)
+			    hljs.registerLanguage("tf", hljsDefineTerraform)
     			hljs.initHighlightingOnLoad();
-
-			    Array.from(Reveal.getRevealElement().querySelectorAll('pre code')).forEach((block) => {
+			    Array.from(Reveal.getRevealElement().querySelectorAll('pre')).forEach((block) => {
 			        RevealHighlight().highlightBlock(block);
 			    });
-			})
+			});
 		</script>
 	</body>
 </html>
-
-
-<!--section>
-		<h3 class="headline">!!TERRAFORM HIGHLIGHT TEST SLIDE!!</h3>		
-		<pre data-id="code-animation"><code class="tf" data-trim data-line-numbers="">
-			resource "azurerm_kusto_cluster" "adx_cluster" {
-				variable   = "${local.mylocal}-test-${var.myvar}"
-				number     = 123456
-				boolean    = true
-				object     = map(string)
-				provisioner {
-					interpreter = ["pwsh" , "-Command"]
-					command = az iot hub device-identity create -n 'my-hub' -d 'my-device'
-				}
-			}
-		</code></pre>
-</section-->

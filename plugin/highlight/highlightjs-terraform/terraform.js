@@ -81,7 +81,7 @@ return {
 }
 
 module.exports = function(hljs) {
-    hljs.registerLanguage('terraform', hljsDefineTerraform);
+    hljs.registerLanguage('tf', hljsDefineTerraform);
 };
 
 module.exports.definer = hljsDefineTerraform;
