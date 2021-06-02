@@ -27,16 +27,46 @@
 				<section>
 					<h2>Terraform - Lessons Learned</h2>
 					<small>
+						<a href="https://github.com/R0bes/Terraform-Presentation">
+							<p>https://github.com/R0bes/Terraform-Presentation</p>
+						</a>
 						<p>By Robin Schwendele</p>
 					</small>
+					<aside class="notes">
+						<ul>
+							<li>i present what i called my lessions learned in terraform</li>
+							<li>questions section at the end, please interrupt if there is something unclear</li>
+						</ul>
+					</aside>
 				</section>
 
+				<!-- ! Agenda -->
+
+				<section>
+					<h2>Terraform - Agenda</h2>
+					<ul>
+						<li class="fragment">Introduction
+							<ul>
+								<li>Me</li>
+								<li>The IoT Project</li>
+								<li>Terraform</li>
+							</ul>
+						</li>
+						<li class="fragment">1. Basics</li>
+						<li class="fragment">2. Custom Resources</li>
+						<li class="fragment">3. Modules</li>
+						<li class="fragment">4. Backends</li>
+						<li class="fragment">5. Summary</li>
+						<li class="fragment">6. Conclusion</li>
+						<li class="fragment">7. Questions/Comments</li>
+					</ul>
+				</section>
 
 				
 				<!-- ! Me -->
 
 				<section>
-					<h3 class="headline">About Myself</h3>
+					<h3 class="headline">About Me</h3>
 					<div style="position: absolute;
                         top: 50px;
                         left: 0px;
@@ -52,13 +82,13 @@
 							<li>Working student since 10/2020</li>
 							<li>Bachelor Computer Science (Mannheim)</li>
 							<li>Student of Master Software-Engineering (Mannheim)</li>
-							<li>
-								<a href="https://github.com/R0bes/Terraform-Presentation">
-									<p>https://github.com/R0bes/Terraform-Presentation</p>
-								</a>
-							</li>
-						</ul-->
+						</ul>
 					</div>
+					<aside class="notes">
+						<ul>
+							<li>the most of you wont know me, so i want to introduce myself</li>
+						</ul>
+					</aside>
 				</section>				
 
 
@@ -73,6 +103,17 @@
 					<div>
 						<small><a href="https://dev.azure.com/GFTDemos/GFT.IoT">https://dev.azure.com/GFTDemos/GFT.IoT</a></small>
 					</div>
+					<aside class="notes">
+						<ul>
+							<li>a little bit overwhleming</li>
+							<li>the project we, pedro and i</li>
+							<li>demo project for iot in cloud</li>
+							<li>mainly i restuctured the project</li>
+							<li>some iot device, cold and hot path, visualization</li>
+							<li>public repo, everyone may have a look</li>
+							<li>i will refer to this late on</li>
+						</ul>
+					</aside>
 				</section>	
 
 				<section>
@@ -85,8 +126,8 @@
 					</div>
 					<h3 class="headline">Terraform</u></h3>
 					<ul>
-						<li class="fragment">By HashiCorp</li>
 						<li class="fragment">Provisioning Tool</li>
+						<li class="fragment">By HashiCorp</li>
 						<li class="fragment">Infrastructure as Code</li>
 						<li class="fragment">Declarative</li>
 						<li class="fragment">Plugin-based architecture model</li>
@@ -96,6 +137,8 @@
 					</ul>
 
 					<aside class="notes">
+						<p>what is terraform</p>
+						<p>manage infrastructure</p>
 						<p>Tasks:</p>
 						<ul>
 							<li>Creation and Standup</li>
@@ -114,6 +157,15 @@
 				<section>
 					<h3 class="headline">Commands</h3>
 					<img data-src="images/diagrams/commands.svg" width="1000">	
+					<aside class="notes">
+						<ul>
+							<li>main terraform steps</li>
+							<li>verify configuration</li>
+							<li>download/install and/or check providers</li>
+							<li>create execution plan without execution</li>
+							<li>aplly plan/changes u make</li>
+						</ul>
+					</aside>
 				</section>
 				
 				
@@ -122,26 +174,41 @@
 
 				<section>
 					<h3 class="headline">Workflow</h3>
+					<a href="https://registry.terraform.io/browse/providers">Provider Registry</a>
 					<img data-src="images/diagrams/workflow.svg" width="1000">	
+					<aside class="notes">
+						<ul>
+							<li>schematic workflow</li>
+							<li>create/manage state, delegate to provideres which are responsible for concrete actions</li>
+							<li>a wide range of providers</li>
+						</ul>
+					</aside>
 				</section>
-
 
 
 				<!-- ! DEMO 1 -- Basics -->
 
 				<section>
-					<h3 class="headline">1. Demo - Terraform Basics</h3>
+					<h3 class="headline">1. Terraform Basics</h3>
 					<p><strong>What we will see:</strong></p>
 					<ul>
-						<li>Example Terraform File (.tf)</li>
-						<li>Syntax Basics</li>
-						<li>Terraform Execution</li>
-						<li>Resource in the Cloud</li>
+						<li class="fragment">Example Terraform File (.tf)</li>
+						<li class="fragment">Syntax Basics</li>
+						<li class="fragment">Terraform Execution</li>
+						<li class="fragment">Resource in the Cloud</li>
 					</ul>
+					<aside class="notes">
+						<ul>
+							<li>dive into tf</li>
+							<li>show demo1</li>
+							<li>discuss syntax basics</li>
+							<li>resulting resources</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
-					<h3 class="headline">1. Demo - Terraform Basics</h3>
+					<h3 class="headline">1. Terraform Basics</h3>
 					<pre><code class="terraform" data-trim data-line-numbers="|1-3|4-7|8-13">
 						provider "azurerm" {
 						    features {}
@@ -157,12 +224,18 @@
 						    allocation_method   = "Static"
 						}
 					</code></pre>
+					<aside class="notes">
+						<ul>
+							<li>since the code is relatively short, i show it here</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
-					<h3 class="headline">1. Demo - Terraform Basics</h3>
+					<h3 class="headline">1. Terraform Basics - Demo</h3>
 					<aside class="notes">
 						<ul>
+							<li>i have omitted init in de second and thirs demo</li>
 							<li>$ cd demos/demo1/</li>
 							<li>$ ls</li>
 							<li>$ type demo1.tf</li>
@@ -181,7 +254,7 @@
 				</section>	
 
 				<section>
-					<h3 class="headline">1. Demo - Terraform Basics</h3>
+					<h3 class="headline">1. Terraform Basics</h3>
 					<p><strong>What we saw</strong></p>
 					<ul>
 						<li>Terraform File</li>
@@ -232,7 +305,7 @@
 
 
 				<section>
-					<h3 class="headline">2. Demo - Custom Resource</h3>		
+					<h3 class="headline">2. Custom Resource</h3>		
 					<ul>
 						<li class="fragment">Prerequisites
 							<ul>
@@ -257,7 +330,7 @@
 
 
 				<section data-auto-animate>
-					<h3 class="headline">2. Demo - Custom Resource</h3>
+					<h3 class="headline">2. Custom Resource</h3>
 					<p>After terraform apply via <a href="https://docs.microsoft.com/de-de/cli/azure/">Azure CLI</a></p>				
 					<pre data-id="code-animation"><code class="bash" data-trim data-line-numbers>
 						az login
@@ -558,14 +631,14 @@
 
 				<section>
 					<h3 class="headline">5. Summary</h3>
-					<p>Initial approach</p>
+					<p class="fragment"><strong style="text-decoration: underline;">Initial approach</strong></p>
 					<ul>
-						<li class="fragment">Pipeline: 185 + 87</li>
+						<li class="fragment">Pipeline: 245 + 147</li>
 						<li class="fragment">Terraform: 364</li>
 					</ul>
-					<p>Changes applied</p>
+					<p class="fragment"><strong style="text-decoration: underline;">Changes applied</strong></p>
 					<ul>
-						<li class="fragment">Pipeline: 143</li>
+						<li class="fragment">Pipeline: 180</li>
 						<li class="fragment">Terraform: 320 + (117 + 54 + 49 + 60) = 600</li>
 					</ul>
 				</section>
@@ -574,21 +647,26 @@
 					<h3 class="headline">6. Conclusion</h3>
 					<ul>
 						<li class="fragment">Great tool for infrastructure provisioning</li>
-						<li class="fragment">Expecially in combination with pipelines</li>
-						<li class="fragment">But in active developement (terraform/providers)</li>
-						<li class="fragment">Some missing functionalities
+						<li class="fragment">Especially in combination with pipelines</li>
+						<li class="fragment">In active developement (terraform/providers)
 							<ul>
+								<li>Some missing functionalities</li>
 								<li>Built in configuration switching</li>
-								<li>Provider funtionality/resources</li>
+								<li>Provider functionality/resources</li>
 							</ul>
 						</li>
-						<li>Flexible enough to built custom workarounds
+						<li class="fragment">Flexible enough to built custom workarounds
 							<ul>
 								<li>Local-exec provisioners</li>
 								<li>Custom provisioners</li>
 							</ul>
 						</li>
 					</ul>
+				</section>
+
+				<section>
+					<h3 class="headline">7. Questions/Comments</h3>
+					<h1>?!</h3>
 				</section>
 
 			</div>

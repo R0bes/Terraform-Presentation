@@ -1,9 +1,9 @@
 
 module "devices" {
     source      = "./Device"
-    for_each    = toset(["demo3-device1", "demo3-device2"])
+    for_each    = toset(["demo3-device1"])
     name        = each.key
-    iot_hub     = "demo3-hub"
+    iot_hub     = "demo2-hub"
 }
 
 
