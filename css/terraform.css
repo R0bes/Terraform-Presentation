@@ -14,7 +14,11 @@ Monokai style - ported by Luigi Maselli - http://grigio.org
 
 .hljs-literal,
 .hljs-variable {
+<<<<<<< HEAD
     color: #0280bb;
+=======
+    color: #2200ff;
+>>>>>>> 72e154c11039f8ae302c78136bf279bce6963dfc
 }
 
 
