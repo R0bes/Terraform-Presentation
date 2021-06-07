@@ -1,29 +1,28 @@
 
 # Terraform - Lessons Learned
 
+
 #### Description:
-First we'll look at some basics, then we'll see how to write custom modules, how to implement switching between remote and local backends, and how to manage resources that don't exist natively in Terraform.
+First we'll look at some basics, then we'll see how to manage resources that don't exist natively in Terraform, how to write custom modules and how to implement switching between remote and local backends.
 
 
 #### Setup
-0. Use a console with admin rights.<br><br>
       
 1. Clone the repository:<br>
-   ```$ git clone https://github.com/R0bes/TerraformPresentation.git```
+   ```$ git clone https://github.com/R0bes/Terraform-Presentation.git```
 
 2. Switch the directory<br>
-   ```cd TerraformPresentation```
+   ```cd Terraform-Presentation```
 
-3. Get necessary prerequisites, execute npm and start the reveal.js server:<br>
-   ```$ . ./startup.sh```
-
+3. Execute npm and start the reveal.js server:<br>
+   ```
+   $ npm install
+   $ npm start
+   ```
 
 4. browse to the [slides](http://localhost:8000).
-
 
 
 #### License
 
 MIT licensed
-
-Copyright (C) 2011-2021 Hakim El Hattab, https://hakim.se
